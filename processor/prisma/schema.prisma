@@ -28,12 +28,12 @@ model Zap {
 }
 
 model Action {
-  id       String           @id @default(uuid())
-  actionId String
-  zapId    String
-  type     AvailableActions @relation(fields: [actionId], references: [id])
-  zap      Zap              @relation(fields: [zapId], references: [id])
-  sortingOrder Int @default(0)
+  id           String           @id @default(uuid())
+  actionId     String
+  zapId        String
+  type         AvailableActions @relation(fields: [actionId], references: [id])
+  zap          Zap              @relation(fields: [zapId], references: [id])
+  sortingOrder Int              @default(0)
 }
 
 model Trigger {

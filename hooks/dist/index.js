@@ -24,14 +24,14 @@ app.post("/hooks/catch/:userId/:zapId", (req, res) => __awaiter(void 0, void 0, 
     console.log("reached here");
     yield prisma.$transaction((tx) => __awaiter(void 0, void 0, void 0, function* () {
         console.log("reached here 2");
-        const zapRun = yield prisma.zapRun.create({
+        const zapRun = yield tx.zapRun.create({
             data: {
                 zapId: zapId,
                 metadata: body
             }
         });
         console.log("reached here 3");
-        const zapRunOutbox = yield prisma.zapRunOutbox.create({
+        const zapRunOutbox = yield tx.zapRunOutbox.create({
             data: {
                 zapRunId: zapRun.id
             }

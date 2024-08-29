@@ -16,7 +16,7 @@ app.post("/hooks/catch/:userId/:zapId", async (req, res) => {
 
     await prisma.$transaction(async tx => {
         console.log("reached here 2");
-        const zapRun = await prisma.zapRun.create({
+        const zapRun = await tx.zapRun.create({
             data: {
                 zapId: zapId,
                 metadata: body
@@ -24,7 +24,7 @@ app.post("/hooks/catch/:userId/:zapId", async (req, res) => {
         });
         console.log("reached here 3");
 
-        const zapRunOutbox = await prisma.zapRunOutbox.create({
+        const zapRunOutbox = await tx.zapRunOutbox.create({
             data: {
                 zapRunId: zapRun.id
             }
