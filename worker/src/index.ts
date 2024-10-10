@@ -12,7 +12,7 @@ async function main() {
     await consumer.connect();
     await consumer.subscribe({ topic: TOPIC_NAME, fromBeginning: true });
     await consumer.run({
-        // be default autoCommit is set to true this means
+        // by default autoCommit is set to true this means
         // even if the worker didn't process the work it committed
         // but it should give an acknowledgement to the queue
         // that the message has been processed successfully
@@ -35,7 +35,7 @@ async function main() {
                 offset: (parseInt(message.offset) + 1).toString()
             }]);
             console.log("processed");
-        }
+        } 
     });
 }
 

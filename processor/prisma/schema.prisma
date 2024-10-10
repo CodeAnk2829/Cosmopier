@@ -18,10 +18,14 @@ model User {
   name     String
   email    String
   password String
+  zaps     Zap[]
 }
 
 model Zap {
   id      String   @id @default(uuid())
+  name    String   @default("Untitled zap")
+  userId  Int
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   trigger Trigger?
   actions Action[]
   zapRuns ZapRun[]
@@ -32,7 +36,7 @@ model Action {
   actionId     String
   zapId        String
   type         AvailableActions @relation(fields: [actionId], references: [id])
-  zap          Zap              @relation(fields: [zapId], references: [id])
+  zap          Zap              @relation(fields: [zapId], references: [id], onDelete: Cascade)
   sortingOrder Int              @default(0)
 }
 
@@ -41,7 +45,7 @@ model Trigger {
   triggerId String
   zapId     String            @unique
   type      AvailableTriggers @relation(fields: [triggerId], references: [id])
-  zap       Zap               @relation(fields: [zapId], references: [id])
+  zap       Zap               @relation(fields: [zapId], references: [id], onDelete: Cascade)
 }
 
 model AvailableActions {
@@ -60,12 +64,12 @@ model ZapRun {
   id           String        @id @default(uuid())
   metadata     Json
   zapId        String
-  zap          Zap           @relation(fields: [zapId], references: [id])
+  zap          Zap           @relation(fields: [zapId], references: [id], onDelete: Cascade)
   zapRunOutbox ZapRunOutbox?
 }
 
 model ZapRunOutbox {
   id       String @id @default(uuid())
   zapRunId String @unique
-  zapRun   ZapRun @relation(fields: [zapRunId], references: [id])
+  zapRun   ZapRun @relation(fields: [zapRunId], references: [id], onDelete: Cascade)
 }
