@@ -30,7 +30,7 @@ router.post("/signup", async (req, res) => {
             throw new Error("Already registered.")
         }
     
-        const userId = await client.user.create({
+        const user = await client.user.create({
             data: {
                 email: parseData.data.username,
                 password: parseData.data.password,
@@ -41,12 +41,15 @@ router.post("/signup", async (req, res) => {
             }
         });
         
-        if(!userId) {
+        if(!user) {
             throw new Error("Registration failed due to some unwanted error.")
         }
 
+        console.log(user.id);
+        console.log(JWT_SECRET);
+
         const token = jwt.sign({
-            id: userId
+            id: user.id
         }, JWT_SECRET);
 
         // TODO : send an email to the user for verification
@@ -114,6 +117,7 @@ router.get("/", authMiddleware, async (req, res) => {
     // @ts-ignore
     const userId = req.id;
     console.log("in user-details");
+    console.log(userId);
     try {
         if(!userId) {
             throw new Error("User doesn't exists");

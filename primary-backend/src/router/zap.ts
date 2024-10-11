@@ -12,6 +12,8 @@ router.post("/", authMiddleware, async (req, res) => {
     const body = req.body; // name, availableTriggerId, triggerMetadata, [{availableActionId, actionMetadata}]
     const parsedData = ZapCreateSchema.safeParse(body);
 
+    console.log("userId: " , userId);
+    console.log(body);
     try {
         if(!parsedData.success) {
             throw new Error("Invalid inputs for zap");

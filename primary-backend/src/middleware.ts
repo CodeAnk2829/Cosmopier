@@ -23,8 +23,10 @@ export function authMiddleware(req: Request, res: Response, next: NextFunction) 
         throw new Error("Seems like you are not logged in.")
     }
     
+    console.log(payload);
     // @ts-ignore
     req.id = payload.id;
+
     next();
     } catch(err: any) {
         console.log(err);
