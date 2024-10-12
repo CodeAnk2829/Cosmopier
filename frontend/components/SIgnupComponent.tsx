@@ -34,7 +34,11 @@ export function SignupComponent() {
                 throw new Error("Failed to submit the data. Please try again.")
             }
             const data = await response.json();
-            localStorage.setItem("token", data.token);
+            const ISSERVER = typeof window === "undefined";
+
+            if (!ISSERVER) {
+                localStorage.setItem("token", data.token);
+            }
             router.push("/zaps");
 
         } catch(error) {

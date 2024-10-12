@@ -35,7 +35,12 @@ export function SigninComponent() {
             }
             const data = await response.json();
             console.log(data);
-            localStorage.setItem("token", data.token);
+            
+            const ISSERVER = typeof window === "undefined";
+
+            if (!ISSERVER) {
+                localStorage.setItem("token", data.token);
+            }
             router.push("/zaps");
 
         } catch (error) {

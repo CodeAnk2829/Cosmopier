@@ -1,24 +1,31 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { ReactFlow, Controls, Background } from '@xyflow/react';
+import { useState, useEffect, useCallback } from 'react';
+import { ReactFlow, Controls, Background, applyNodeChanges,  } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
+import CustomNode from './CustomNode';
 
+const initialNodes = [
+    {
+        id: '1',
+        position: { x: 0, y: 0 },
+        data: { value: 'ankit' },
+        // width: 400,
+        // height: 80,
+        // style: {
+        //     background: '#fff',
+        //     fontSize: 20,
+        // },
+        type: 'customNode'
+    },
+]
+
+const nodeTypes = { customeNode: CustomNode };
 
 export default function Editor() {
-    const [nodes, setNodes] = useState([
-        {
-            id: '1',
-            position: { x: 0, y: 0 },
-            data: { label: 'Hello' },
-            width: 400,
-            height: 80,
-            style: {
-                background: '#fff',
-                fontSize: 20,
-            },
-        },
-    ]);
+    const [nodes, setNodes] = useState(initialNodes);
+
+   
 
     useEffect(() => {
         const setNodeInCenter = () => {
@@ -31,14 +38,15 @@ export default function Editor() {
                 {
                     id: '1',
                     position: { x: centerX - 75, y: centerY - 40 }, 
-                    data: { label: 'Hello' },
-                    width: 400,
-                    height: 80,
-                    style: {
-                        background: '#fff',
-                        fontSize: 20,
+                    data: { value: 'ankit' },
+                    // width: 400,
+                    // height: 80,
+                    // style: {
+                    //     background: '#fff',
+                    //     fontSize: 20,
                         
-                    },
+                    // },
+                    type: 'customNode'
                 },
             ]);
         };
@@ -51,10 +59,17 @@ export default function Editor() {
         };
     }, []);
 
+    const onNodesChange = useCallback(
+        (changes: any) => setNodes((nds) => applyNodeChanges(changes, nds)),
+        [setNodes],
+    );
+
     return (
         <div style={{ height: '91vh', width: '100vw', overflow: 'hidden', margin: 0}} className='text-slate-500 font-semibold'>
             <ReactFlow
                 nodes={nodes}
+                onNodesChange={onNodesChange}
+                nodeTypes={nodeTypes}
             >
                 <Background />
                 <Controls />
