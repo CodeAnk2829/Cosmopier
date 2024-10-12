@@ -32,18 +32,18 @@ function useZaps() {
     const [loading, setLoading] = useState<boolean>(true);
     const [zaps, setZaps] = useState<Zap[]>([]);
     const [isClient, setIsClient] = useState<boolean>(false);
-    const [token, setToken] = useState<string | null>(null);
+ 
 
     useEffect(() => {
         setIsClient(typeof window !== "undefined");
     }, []);
 
-
+    let token: string | null;
     if(isClient) {
-        setToken(localStorage.getItem("token"));
+        token = localStorage.getItem("token");
+        console.log(token);
     }
 
-    console.log(token);
 
     useEffect(() => {
         fetch(`${BACKEND_URL}/api/v1/zap`, {
@@ -62,7 +62,7 @@ function useZaps() {
         }).catch((err) => {
             console.error(err);
         });
-    }, [])
+    }, [isClient])
 
     return { 
         loading, zaps
