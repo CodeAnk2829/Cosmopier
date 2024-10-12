@@ -6,6 +6,8 @@ import '@xyflow/react/dist/style.css';
 import CustomNode from './CustomNode';
 import Modal from './Modal';
 
+// TODO: make this flow dynamic, currently it only supports static event selection
+
 const initialNodes = [
     {
         id: '1',
@@ -31,6 +33,10 @@ export default function Editor() {
     const [nodes, setNodes] = useState(initialNodes);
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [selectedNodeEvent, setSelectedNodeEvent] = useState<string | null>(null);
+    const [triggerTitle, setTriggerTitle] = useState<string>("Trigger");
+    const [actionTitle, setActionTitle] = useState<string>("Action");
+    const [selectedTriggerDesc, setSelectedTriggerDesc] = useState<string>("Select the event that starts your Zap");
+    const [selectedActionDesc, setSelectedActionDesc] = useState<string>("Select the event for your Zap to run");
 
     useEffect(() => {
         const setNodeInCenter = () => {
@@ -44,10 +50,10 @@ export default function Editor() {
                     id: 'webhooks',
                     position: { x: centerX - 255, y: centerY - 280 },
                     data: {
-                        label: <CustomNode title="Trigger" onClick={() => {
+                        label: <CustomNode title={triggerTitle} onClick={() => {
                             setSelectedNodeEvent('webhooks');
                             setIsModalOpen(true);
-                        }}>Select the event that starts your Zap</CustomNode>,
+                        }}>{selectedTriggerDesc}</CustomNode>,
                     },
                     width: 500,
                     style: {
@@ -58,10 +64,10 @@ export default function Editor() {
                     id: 'email',
                     position: { x: centerX - 255, y: centerY - 10 },
                     data: {
-                        label: <CustomNode title="Action" onClick={() => {
+                        label: <CustomNode title={actionTitle} onClick={() => {
                             setSelectedNodeEvent('email');
                             setIsModalOpen(true);
-                        }}>Select the event for your Zap to run</CustomNode>,
+                        }}>{selectedActionDesc}</CustomNode>,
                     },
                     width: 500,
                     style: {
@@ -77,10 +83,17 @@ export default function Editor() {
         return () => {
             window.removeEventListener('resize', setNodeInCenter);
         };
-    }, []);
+    }, [triggerTitle, actionTitle, selectedActionDesc, selectedTriggerDesc]);
 
     const handleModalSelect = (selectedEvent: string) => {
         console.log(`Event selected for node ${selectedNodeEvent}: ${selectedEvent}`);
+        if(selectedEvent === 'Webhooks by Rapidflow') {
+            setTriggerTitle(selectedEvent);
+            setSelectedTriggerDesc("Select the event");
+        } else if(selectedEvent === "Gmail") {
+            setActionTitle(selectedEvent);
+            setSelectedActionDesc("Select the event");
+        }
         setIsModalOpen(false);
     };
 
