@@ -29,8 +29,12 @@ const initialNodes = [
     },
 ];
 
+const initialEdges = [{ id: 'e1-2', source: '1', target: '2' }];
+
 export default function Editor() {
     const [nodes, setNodes] = useState(initialNodes);
+    const [edges, setEdges] = useState(initialEdges);
+
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [selectedNodeEvent, setSelectedNodeEvent] = useState<string | null>(null);
     const [triggerTitle, setTriggerTitle] = useState<string>("Trigger");
@@ -75,6 +79,8 @@ export default function Editor() {
                     },
                 },
             ]);
+
+            setEdges([{ id: 'e1-2', source: 'webhooks', target: 'email' }])
         };
         setNodeInCenter();
 
@@ -100,6 +106,7 @@ export default function Editor() {
     return (
         <div style={{ height: '91vh', width: '100vw', overflow: 'hidden', margin: 0, position: 'relative' }}>
             <ReactFlow
+            edges={edges}
                 nodes={nodes}
                 colorMode="dark"
                 style={{ pointerEvents: isModalOpen ? 'none' : 'auto' }} 
