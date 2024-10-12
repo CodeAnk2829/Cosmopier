@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import React, { useState, FormEvent } from "react"
+import React, { useState, FormEvent, useEffect } from "react"
 import { Input } from "./Input";
 
 // TODO: ensure form validation
@@ -12,6 +12,12 @@ export function SignupComponent() {
     const router = useRouter();
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
+    const [isClient, setIsClient] = useState(false);
+
+
+    useEffect(() => {
+        setIsClient(typeof window !== "undefined");
+    }, []);
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -34,9 +40,7 @@ export function SignupComponent() {
                 throw new Error("Failed to submit the data. Please try again.")
             }
             const data = await response.json();
-            const ISSERVER = typeof window === "undefined";
-
-            if (!ISSERVER) {
+            if (isClient) {
                 localStorage.setItem("token", data.token);
             }
             router.push("/zaps");

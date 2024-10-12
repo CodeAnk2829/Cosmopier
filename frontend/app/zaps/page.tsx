@@ -31,8 +31,17 @@ interface Zap {
 function useZaps() {
     const [loading, setLoading] = useState<boolean>(true);
     const [zaps, setZaps] = useState<Zap[]>([]);
+    const [isClient, setIsClient] = useState<boolean>(false);
+    const [token, setToken] = useState<string | null>(null);
 
-    const token = localStorage.getItem("token");
+    useEffect(() => {
+        setIsClient(typeof window !== "undefined");
+    }, []);
+
+
+    if(isClient) {
+        setToken(localStorage.getItem("token"));
+    }
 
     console.log(token);
 
