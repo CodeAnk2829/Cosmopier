@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
-import { ReactFlow, Controls, Background, applyNodeChanges,  } from '@xyflow/react';
+import { useState, useEffect } from 'react';
+import { ReactFlow, Controls, Background, } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import CustomNode from './CustomNode';
 
@@ -9,18 +9,27 @@ const initialNodes = [
     {
         id: '1',
         position: { x: 0, y: 0 },
-        data: { value: 'ankit' },
-        // width: 400,
-        // height: 80,
-        // style: {
-        //     background: '#fff',
-        //     fontSize: 20,
-        // },
-        type: 'customNode'
+        data: { label: <CustomNode  title="Trigger" onClick={() => {
+            alert("Trigger")
+        }}>Select the event that starts your Zap</CustomNode> },
+        width: 500,
+        style: {
+            fontSize: 20
+        },
+    },
+    {
+        id: '2',
+        position: { x: 0, y: 0 },
+        data: { label: <CustomNode  title="Action" onClick={() => {
+            alert("Action")
+        }}>Select the event that starts your Zap</CustomNode> },
+        width: 500,
+        style: {
+            fontSize: 20
+        },
     },
 ]
 
-const nodeTypes = { customeNode: CustomNode };
 
 export default function Editor() {
     const [nodes, setNodes] = useState(initialNodes);
@@ -37,16 +46,29 @@ export default function Editor() {
             setNodes([
                 {
                     id: '1',
-                    position: { x: centerX - 75, y: centerY - 40 }, 
-                    data: { value: 'ankit' },
-                    // width: 400,
-                    // height: 80,
-                    // style: {
-                    //     background: '#fff',
-                    //     fontSize: 20,
-                        
-                    // },
-                    type: 'customNode'
+                    position: { x: centerX - 255, y: centerY - 280 }, 
+                    data: {
+                        label: <CustomNode title="Trigger" onClick={() => {
+                            alert("hello")
+                        }}>Select the event that starts your Zap</CustomNode>
+                    },
+                    width: 500,
+                    style: {
+                        fontSize: 20
+                    } 
+                },
+                {
+                    id: '2',
+                    position: { x: centerX - 255, y: centerY - 10 },
+                    data: {
+                        label: <CustomNode title="Action" onClick={() => {
+                            alert("Action")
+                        }}>Select the event for your Zap to run</CustomNode>
+                    },
+                    width: 500,
+                    style: {
+                        fontSize: 20
+                    },
                 },
             ]);
         };
@@ -59,17 +81,11 @@ export default function Editor() {
         };
     }, []);
 
-    const onNodesChange = useCallback(
-        (changes: any) => setNodes((nds) => applyNodeChanges(changes, nds)),
-        [setNodes],
-    );
-
     return (
-        <div style={{ height: '91vh', width: '100vw', overflow: 'hidden', margin: 0}} className='text-slate-500 font-semibold'>
+        <div style={{ height: '91vh', width: '100vw', overflow: 'hidden', margin: 0}}>
             <ReactFlow
                 nodes={nodes}
-                onNodesChange={onNodesChange}
-                nodeTypes={nodeTypes}
+                colorMode='dark'
             >
                 <Background />
                 <Controls />

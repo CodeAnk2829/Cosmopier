@@ -5,6 +5,7 @@ import React, { useState, FormEvent, useEffect } from "react"
 import { Input } from "./Input";
 
 // TODO: ensure form validation
+// TODO: fix localStorage error as page is making backend call again when isClient change
 
 export function SignupComponent() {
     const BACKEND_URL = process.env.NEXT_PUBLIC_URL;
