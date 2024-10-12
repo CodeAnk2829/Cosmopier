@@ -57,7 +57,7 @@ router.post("/signup", async (req, res) => {
 
         res.status(201).json({
             message: "Please verify you account",
-            token: `Bearer ${token}`
+            token
         });
 
     } catch(err: any) {
@@ -100,7 +100,7 @@ router.post("/signin", async (req, res) => {
 
         res.status(200).json({
             message: "Logged in successfully",
-            token: `Bearer ${token}`
+            token
         });
 
     } catch(err: any) {

@@ -34,8 +34,8 @@ export function SignupComponent() {
                 throw new Error("Failed to submit the data. Please try again.")
             }
             const data = await response.json();
-            console.log(data);
-            router.push("/zap");
+            localStorage.setItem("token", data.token);
+            router.push("/zaps");
 
         } catch(error) {
             // @ts-expect-error/failed-submit-details

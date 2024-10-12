@@ -77,6 +77,7 @@ router.get("/", authMiddleware, async (req, res) => {
             select: {
                 id: true,
                 name: true,
+                userId: true,
                 trigger: {
                     select: {
                         type: true
@@ -84,7 +85,14 @@ router.get("/", authMiddleware, async (req, res) => {
                 },
                 actions: {
                     select: {
-                        type: true
+                        id: true,
+                        actionId: true,
+                        sortingOrder: true,
+                        type: {
+                            select: {
+                                name: true,
+                            }
+                        }
                     }
                 }
             }
