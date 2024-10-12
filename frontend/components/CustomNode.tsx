@@ -16,7 +16,6 @@ export default function CustomNode({ children, title, onClick }: {
 
                     </div>
                     <div>{title}</div>
-
                 </div>
 
             </button>
