@@ -5,6 +5,7 @@ import { ReactFlow, Controls, Background } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import CustomNode from "./CustomNode";
 
+const BACKEND_URL = process.env.NEXT_PUBLIC_URL;
 interface Event {
     id: string,
     name: string,
@@ -105,7 +106,7 @@ export default function Flow() {
     }, [centerX, centerY]);
 
     useEffect(() => {
-        fetch("http://localhost:8080/api/v1/trigger/available")
+        fetch(`${BACKEND_URL}/api/v1/trigger/available`)
             .then(async (res) => {
                 if (!res.ok) {
                     throw new Error("Something went wrong while fetching triggers for modal");
@@ -117,7 +118,7 @@ export default function Flow() {
             }).catch((err: any) => {
                 console.error(err);
             }).finally(() => {
-                fetch("http://localhost:8080/api/v1/action/available")
+                fetch(`${BACKEND_URL}/api/v1/action/available`)
                     .then(async (res) => {
                         if (!res.ok) {
                             throw new Error("Something went wrong while fetching the actions");
